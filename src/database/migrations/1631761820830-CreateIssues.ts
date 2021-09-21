@@ -15,12 +15,9 @@ export class CreateIssues1631761820830 implements MigrationInterface {
                         generationStrategy: 'increment',
                     },
                     {
-                        name: 'subject',
-                        type: 'varchar',
-                    },
-                    {
                         name: 'solicitation',
                         type: 'varchar',
+                        isNullable: true
                     },
                     {
                         name: 'solution',
@@ -28,12 +25,13 @@ export class CreateIssues1631761820830 implements MigrationInterface {
                         isNullable: true
                     },
                     {
-                        name: 'username',
+                        name: 'clientContactId',
                         type: 'varchar',
+                        isNullable: true
                     },
                     {
-                        name: 'usercontact',
-                        type: 'varchar',
+                        name: 'issueStarted',
+                        type: 'boolean',
                     },
                     {
                         name: 'created_at',

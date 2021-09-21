@@ -3,40 +3,31 @@ import { Request, Response } from 'express';
 import { IssuesService } from '../services/IssuesService';
 
 class IssuesController {
-  async create(request: Request, response: Response): Promise<Response> {
-    const { subject, solicitation, username, usercontact } = request.body;
-
+  async showAllOpennedIssues(request: Request, response: Response): Promise<Response> {
     const issuesService = new IssuesService();
 
-    const issue = await issuesService.create({
-      subject,
-      solicitation,
-      username,
-      usercontact
-    });
+    const issues = await issuesService.showAllOpennedIssues();
 
-    return response.json(issue);
+    return response.json(issues);
   }
 
-  async update(request: Request, response: Response): Promise<Response> {
+  async finishIssue(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const { solution } = request.body;
 
     const issuesService = new IssuesService();
 
-    await issuesService.update(id, solution);
-
-    return response.send();
-  }
-
-  async show(request: Request, response: Response): Promise<Response> {
-    const { id } = request.params;
-
-    const issuesService = new IssuesService();
-
-    const issue = await issuesService.show(id);
+    const issue = await issuesService.finishIssue(id, solution);
 
     return response.json(issue);
+  }
+
+  async showAllClosedIssues(request: Request, response: Response): Promise<Response> {
+    const issuesService = new IssuesService();
+
+    const issues = await issuesService.showAllClosedIssues();
+
+    return response.json(issues);
   }
 }
 

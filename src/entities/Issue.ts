@@ -1,25 +1,26 @@
-import { Column, CreateDateColumn, UpdateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn
+} from 'typeorm';
 
 @Entity('issues')
 class Issue {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
+
+  @Column({nullable: true})
+  solicitation!: string;
+
+  @Column({nullable: true})
+  solution!: string;
+
+  @Column({nullable: true})
+  clientContactId!: string;
 
   @Column()
-  subject: string;
-
-  @Column()
-  solicitation: string;
-
-  @Column()
-  solution: string;
-  nullable: true;
-
-  @Column()
-  username: string;
-
-  @Column()
-  usercontact: string;
+  issueStarted: boolean;
 
   @CreateDateColumn()
   created_at: Date;

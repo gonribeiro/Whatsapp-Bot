@@ -1,13 +1,16 @@
-import { getCustomRepository } from 'typeorm';
+import { getCustomRepository, IsNull, Not } from 'typeorm';
 import { Issue } from '../entities/Issue';
 
 import { IssuesRepository } from '../repositories/IssuesRepository';
 
+import client from '../bot';
+
 interface IIssueRequest {
-    subject: string,
-    solicitation: string,
-    username: string,
-    usercontact: string
+    id?: string;
+    solicitation?: string;
+    solution?: string
+    clientContactId?: string;
+    issueStarted?: boolean;
 }
 
 class IssuesService {
@@ -17,12 +20,22 @@ class IssuesService {
         this.issuesRepository = getCustomRepository(IssuesRepository);
     }
 
-    async create({ subject, solicitation, username, usercontact }: IIssueRequest) {
+    async issueStarted(clientContactId: string) {
+        const issue = await this.issuesRepository.findOne({
+            where: {
+                clientContactId,
+                issueStarted: true
+            },
+            order: { id: 'DESC' }
+        });
+
+        return issue;
+    }
+
+    async create({ issueStarted, clientContactId }: IIssueRequest) {
         const newIssue = this.issuesRepository.create({
-            subject,
-            solicitation,
-            username,
-            usercontact
+            clientContactId,
+            issueStarted
         });
 
         await this.issuesRepository.save(newIssue);
@@ -30,21 +43,46 @@ class IssuesService {
         return newIssue;
     }
 
-    async update(id: string, solution: string) {
+    async update({ id, solicitation }: IIssueRequest) {
+        await this.issuesRepository
+            .createQueryBuilder()
+            .update(Issue)
+            .set({ solicitation, issueStarted: false })
+            .whereInIds(id)
+            .execute();
+    }
+
+    async showAllOpennedIssues() {
+        const oppenedIssues = await this.issuesRepository.find({
+            where: { solution: IsNull() }
+        });
+
+        return oppenedIssues;
+    }
+
+    async finishIssue(id: string, solution: string) {
         await this.issuesRepository
             .createQueryBuilder()
             .update(Issue)
             .set({ solution })
             .whereInIds(id)
             .execute();
-    }
 
-    async show(id: string) {
-        const list = await this.issuesRepository.find({
+        const issue = await this.issuesRepository.findOne({
             where: { id }
         });
 
-        return list;
+        client.sendMessage(issue.clientContactId, 'Seu chamado foi finalizado com a resposta: ' + solution);
+
+        return issue;
+    }
+
+    async showAllClosedIssues() {
+        const closedIssues = await this.issuesRepository.find({
+            where: { solution: Not(IsNull()) }
+        });
+
+        return closedIssues;
     }
 }
 

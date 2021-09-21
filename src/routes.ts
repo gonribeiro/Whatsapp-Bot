@@ -6,8 +6,8 @@ const routes = Router();
 
 const issuesController = new IssuesController();
 
-routes.post("/issue/create", issuesController.create);
-routes.post("/issue/update/:id", issuesController.update);
-routes.post("/issue/show/:id", issuesController.show);
+routes.get("/issues/openned", issuesController.showAllOpennedIssues);
+routes.post("/issue/finish/:id", issuesController.finishIssue);
+routes.get("/issues/closed", issuesController.showAllClosedIssues);
 
 export { routes };
