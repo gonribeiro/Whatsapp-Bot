@@ -25,7 +25,7 @@ Este projeto utiliza as seguintes tecnologias:
 - [TypeORM](https://typeorm.io/)
 - [Whatsapp Web](https://github.com/pedroslopez/whatsapp-web.js)
 
-## ⚠️🤚 Andes de começar, leia com atenção 👈
+## ⚠️🤚 Antes de começar, leia com atenção 👈
 API criada com base no seguinte projeto: https://github.com/pedroslopez/whatsapp-web.js.
 
 O mesmo informa que esta não é uma API oficial do WhatsApp e o número que você utilizar para testes poderá ser bloqueado pelo WhatsApp. Esteja ciente desse risco. Recomendo ler cuidadosamente as documentações disponibilizadas:
