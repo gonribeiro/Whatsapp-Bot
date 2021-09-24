@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/github/stars/gonribeiro/Helpdesk-Whatsapp-Bot?label=stars&message=MIT&color=5965E0&labelColor=121214" alt="Stars">
 </p>
 
-![Helpdesk-Whatsapp-Bot](.github/projeto.png)
+![Helpdesk-Whatsapp-Bot](.github/projeto_.png)
 
 ## 🎮 O Projeto
 
