@@ -3,10 +3,10 @@ import { Request, Response } from 'express';
 import { IssuesService } from '../services/IssuesService';
 
 class IssuesController {
-  async showAllOpennedIssues(request: Request, response: Response): Promise<Response> {
+  async showAllOpenedIssues(request: Request, response: Response): Promise<Response> {
     const issuesService = new IssuesService();
 
-    const issues = await issuesService.showAllOpennedIssues();
+    const issues = await issuesService.showAllOpenedIssues();
 
     return response.json(issues);
   }

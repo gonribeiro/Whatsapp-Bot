@@ -62,7 +62,7 @@ O projeto não possui telas. Realize os exemplos utilizando o Postman, Insomnia 
 
 |  Método |  Rota  | Parâmetros | Retorno |
 |---------|--------|------------| ------- |
-|   GET   | /issues/openned | nenhum | Chamados Abertos
+|   GET   | /issues/opened | nenhum | Chamados Abertos
 |  POST   | /issue/finish/:id | `number` id | Chamado Concluído
 |   GET   | /issues/closed | nenhum | Chamados Fechados
 

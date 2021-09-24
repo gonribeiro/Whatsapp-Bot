@@ -52,7 +52,7 @@ class IssuesService {
             .execute();
     }
 
-    async showAllOpennedIssues() {
+    async showAllOpenedIssues() {
         const oppenedIssues = await this.issuesRepository.find({
             where: { solution: IsNull() }
         });
