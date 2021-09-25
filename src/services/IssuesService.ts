@@ -20,7 +20,7 @@ class IssuesService {
         this.issuesRepository = getCustomRepository(IssuesRepository);
     }
 
-    async issueStarted(clientContactId: string) {
+    async issueStarted({ clientContactId }: IIssueRequest) {
         const issue = await this.issuesRepository.findOne({
             where: {
                 clientContactId,
@@ -32,10 +32,10 @@ class IssuesService {
         return issue;
     }
 
-    async create({ issueStarted, clientContactId }: IIssueRequest) {
+    async create({ clientContactId }: IIssueRequest) {
         const newIssue = this.issuesRepository.create({
             clientContactId,
-            issueStarted
+            issueStarted: true
         });
 
         await this.issuesRepository.save(newIssue);
@@ -60,7 +60,7 @@ class IssuesService {
         return oppenedIssues;
     }
 
-    async finishIssue(id: string, solution: string) {
+    async finishIssue({ id, solution }: IIssueRequest) {
         await this.issuesRepository
             .createQueryBuilder()
             .update(Issue)

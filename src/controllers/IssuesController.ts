@@ -17,7 +17,7 @@ class IssuesController {
 
     const issuesService = new IssuesService();
 
-    const issue = await issuesService.finishIssue(id, solution);
+    const issue = await issuesService.finishIssue({ id, solution });
 
     return response.json(issue);
   }

@@ -35,13 +35,12 @@ client.on('message', async message => {
 
     let issuesService = new IssuesService();
 
-    let issue = await issuesService.issueStarted(getContact.id['_serialized']);
+    let issue = await issuesService.issueStarted({ clientContactId: getContact.id['_serialized'] });
 
     if (issue === undefined) {
         if (message.body.toLowerCase() === 'novo') {
             await issuesService.create({
-                clientContactId : getContact.id['_serialized'],
-                issueStarted: true
+                clientContactId : getContact.id['_serialized']
             });
 
             message.reply('Atendimento iniciado! Em apenas uma única mensagem, informe o seu problema e em breve iremos atendê-lo.');
@@ -51,7 +50,7 @@ client.on('message', async message => {
     } else {
         await issuesService.update({
             id: issue.id,
-            solicitation : message.body,
+            solicitation: message.body,
         });
 
         message.reply('Seu chamado foi registrado! Por favor aguarde o nosso contato dentro de um dia útil.');

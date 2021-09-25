@@ -74,7 +74,7 @@ O projeto não possui telas. Realize os exemplos utilizando o Postman, Insomnia 
 
 - Finalizar chamado:
 
-![Helpdesk-Whatsapp-Bot](.github/exemplo_finalizando_chamado.png)
+![Helpdesk-Whatsapp-Bot](.github/exemplo_finalizando_chamado_.png)
 
 - Listar chamados fechados:
 
