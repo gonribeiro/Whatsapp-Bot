@@ -3,14 +3,13 @@ import { Issue } from '../entities/Issue';
 
 import { IssuesRepository } from '../repositories/IssuesRepository';
 
-import client from '../bot';
+import { sendMessageFinishIssueForCustomer } from './BotService';
 
 interface IIssueRequest {
     id?: string;
     solicitation?: string;
     solution?: string
-    clientContactId?: string;
-    issueStarted?: boolean;
+    customerContactId?: string;
 }
 
 class IssuesService {
@@ -20,11 +19,11 @@ class IssuesService {
         this.issuesRepository = getCustomRepository(IssuesRepository);
     }
 
-    async issueStarted({ clientContactId }: IIssueRequest) {
+    async issueStarted({ customerContactId }: IIssueRequest) {
         const issue = await this.issuesRepository.findOne({
             where: {
-                clientContactId,
-                issueStarted: true
+                customerContactId,
+                solicitation: IsNull()
             },
             order: { id: 'DESC' }
         });
@@ -32,22 +31,20 @@ class IssuesService {
         return issue;
     }
 
-    async create({ clientContactId }: IIssueRequest) {
-        const newIssue = this.issuesRepository.create({
-            clientContactId,
-            issueStarted: true
-        });
+    async create({ customerContactId }: IIssueRequest) {
+        const newIssue = this.issuesRepository.create({ customerContactId });
 
         await this.issuesRepository.save(newIssue);
 
         return newIssue;
     }
 
+    // Customer updates the ticket with a solicitaton
     async update({ id, solicitation }: IIssueRequest) {
         await this.issuesRepository
             .createQueryBuilder()
             .update(Issue)
-            .set({ solicitation, issueStarted: false })
+            .set({ solicitation })
             .whereInIds(id)
             .execute();
     }
@@ -68,11 +65,9 @@ class IssuesService {
             .whereInIds(id)
             .execute();
 
-        const issue = await this.issuesRepository.findOne({
-            where: { id }
-        });
+        const issue = await this.issuesRepository.findOne(id);
 
-        client.sendMessage(issue.clientContactId, 'Seu chamado foi finalizado com a resposta: ' + solution);
+        sendMessageFinishIssueForCustomer(issue.customerContactId, solution);
 
         return issue;
     }

@@ -17,10 +17,7 @@ class Issue {
   solution!: string;
 
   @Column({nullable: true})
-  clientContactId!: string;
-
-  @Column()
-  issueStarted: boolean;
+  customerContactId: string;
 
   @CreateDateColumn()
   created_at: Date;

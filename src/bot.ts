@@ -1,5 +1,4 @@
 import { Client } from 'whatsapp-web.js'
-import { IssuesService } from './services/IssuesService';
 const qrcode = require('qrcode-terminal');
 const fs = require('fs');
 
@@ -29,32 +28,5 @@ client.on('authenticated', (session) => {
 });
 
 client.initialize();
-
-client.on('message', async message => {
-    let getContact = await message.getContact();
-
-    let issuesService = new IssuesService();
-
-    let issue = await issuesService.issueStarted({ clientContactId: getContact.id['_serialized'] });
-
-    if (issue === undefined) {
-        if (message.body.toLowerCase() === 'novo') {
-            await issuesService.create({
-                clientContactId : getContact.id['_serialized']
-            });
-
-            message.reply('Atendimento iniciado! Em apenas uma única mensagem, informe o seu problema e em breve iremos atendê-lo.');
-        } else {
-            message.reply('[Mensagem automática]: Envie a palavra "novo" para iniciar a abertura de um novo chamado.');
-        }
-    } else {
-        await issuesService.update({
-            id: issue.id,
-            solicitation: message.body,
-        });
-
-        message.reply('Seu chamado foi registrado! Por favor aguarde o nosso contato dentro de um dia útil.');
-    }
-});
 
 export default client;

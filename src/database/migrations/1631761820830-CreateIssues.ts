@@ -25,13 +25,8 @@ export class CreateIssues1631761820830 implements MigrationInterface {
                         isNullable: true
                     },
                     {
-                        name: 'clientContactId',
-                        type: 'varchar',
-                        isNullable: true
-                    },
-                    {
-                        name: 'issueStarted',
-                        type: 'boolean',
+                        name: 'customerContactId',
+                        type: 'varchar'
                     },
                     {
                         name: 'created_at',
